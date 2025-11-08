@@ -1,0 +1,42 @@
+<!--GitHub Code used as reference: MyPingO Refresh-Jinja-HTML-Example-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        h1 {
+            text-align: center;
+        }
+        body {
+            text-align: right;
+            margin: 40px;
+        }
+    </style>
+</head>
+<body>
+  <h1>{{ pet.name }}'s Dashboard</h1>
+
+  <div class="right-align" id="petStats">
+    <p>Hunger: <span id="hunger">{{ pet.hunger }}</span></p>
+    <p>Energy: <span id="energy">{{ pet.energy }}</span></p>
+    <p>Fun: <span id="fun">{{ pet.fun }}</span></p>
+    <p>Age: {{ pet.age }} Day(s)</p>
+<!--Action Buttons-->
+    <a href="/pet/{{ pet.name }}/feed">Feed</a>
+    <a href="/pet/{{ pet.name }}/play">Play</a>
+    <a href="/pet/{{ pet.name }}/rest">Rest</a>
+   </div>
+   <script type="text/javascript">
+    window.onload=function(){
+        setInterval(function(){
+            fetch("/pet/{{ pet.name }}/stats")
+            .then(response=>response.json())
+            .then(data=>{
+                document.getElementById("hunger").textContent = data.hunger;
+                document.getElementById("energy").textContent = data.energy;
+                document.getElementById("fun").textContent = data.fun;
+            });
+        }, 10000);
+    }
+   </script>
+</body>
+</html>
